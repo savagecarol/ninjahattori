@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ninja Hattori</title>
+</head>
+
+<body>
+
+    <div class="mainDiv">
+        <h1>Firebase Text Upload</h1>
+        <form id="form" action="">
+            <input type="text" name="content" id="content">
+            <button type="submit">Submit</button>
+        </form>
+	</div>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+
+    
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-firestore.js"></script>
+        
+        <script>
+            // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyC5_n0KqAYIX9NP8wkwGfLpJBSoXsZkYY0",
+            authDomain: "ninja-hattori-ada11.firebaseapp.com",
+            databaseURL: "https://ninja-hattori-ada11.firebaseio.com",
+            projectId: "ninja-hattori-ada11",
+            storageBucket: "ninja-hattori-ada11.appspot.com",
+            messagingSenderId: "1001240733438",
+            appId: "1:1001240733438:web:1faf6dce683974870227af",
+            measurementId: "G-EDTK31Z0BV"
+        };
+        // Initialize Firebase
+        // firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        const db = firebase.firestore().collection('post')
+        // const db_doc = db.doc('K35qdAgHvNBbxburHtjf');
+        // db_doc.get().then((doc) => {
+        //     if (!doc.exists) return;
+        //     console.log("Document data:", doc.data());
+        // });
+        console.log(db)
+
+        // db.add({
+        //     content: "Alankar"
+        // }).then((ref) => {
+        //     console.log("data uploaded")
+        // })
+        
+        const form = document.querySelector('#form');
+
+        //grab an input
+        const inputEmail = form.querySelector('#content');
+        console.log(inputEmail.value)
+        function firebasePush(input) {
+            //push itself
+            var mailsRef = db.set(
+                {
+                    content: input.value
+                }
+            ).then(() => {
+                console.log('document posted');
+            });
+        }
+
+        if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            db.add({
+                content: inputEmail.value
+            }).then((ref) => {
+                console.log("data uploaded", ref.id)
+            })
+            //shows alert if everything went well.
+            return alert('Data Successfully Sent to Realtime Database');
+        })
+    }
+    </script>
+</body>
+
+</html>
